@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2 class="mb-4">👨‍🏫 Edit Faculty</h2>
+
+<form method="POST" class="card p-4 shadow">
+
+    <label>Faculty ID</label>
+    <input type="text" value="{{ f.faculty_id }}" class="form-control mb-2" readonly>
+
+    <label>Name</label>
+    <input type="text" name="name" value="{{ f.name }}" class="form-control mb-2" required>
+
+    <label>Department</label>
+    <input type="text" name="branch" value="{{ f.branch }}" class="form-control mb-2">
+
+    <label>Salary</label>
+    <input type="number" name="salary" value="{{ f.salary }}" class="form-control mb-2">
+
+    <label>Performance</label>
+    <input type="text" name="performance" value="{{ f.performance }}" class="form-control mb-2">
+
+    <label>Specialization</label>
+    <input type="text" name="specialization" value="{{ f.specialization }}" class="form-control mb-2">
+
+    <label>Achievements</label>
+    <textarea name="achievements" class="form-control mb-2">{{ f.achievements }}</textarea>
+
+    <button class="btn btn-warning mt-3">Update Faculty</button>
+
+    <a href="/admin" class="btn btn-secondary mt-3 ms-2">Cancel</a>
+
+</form>
+
+{% endblock %}

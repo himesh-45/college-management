@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="profile-card">
+
+    <!-- Avatar -->
+    <div class="profile-avatar">
+        👨‍🏫
+    </div>
+
+    <!-- Name -->
+    <h2 class="profile-name">{{ faculty.name }}</h2>
+
+    <!-- Info -->
+    <div class="profile-info"><strong>🆔 Faculty ID:</strong> {{ faculty.faculty_id }}</div>
+    <div class="profile-info"><strong>🏢 Department:</strong> {{ faculty.branch }}</div>
+    <div class="profile-info"><strong>💰 Salary:</strong> ₹{{ faculty.salary }}</div>
+
+    <div class="profile-info">
+        <strong>📊 Performance:</strong> 
+        <span class="badge-performance">{{ faculty.performance }}</span>
+    </div>
+
+</div>
+
+{% endblock %}

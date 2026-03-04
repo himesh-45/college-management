@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+
+<!-- HEADER -->
+<div class="dashboard-header">
+    <h2>🎓 Student Dashboard</h2>
+
+    <a href="/student_profile" class="btn btn-success">
+        👤 View My Profile
+    </a>
+</div>
+
+<!-- STUDENT SUMMARY -->
+<div class="student-card mb-4">
+    <h4>{{ student.name }}</h4>
+    <p><b>Roll No:</b> {{ student.roll_no }}</p>
+    <p><b>Year:</b> {{ student.year }}</p>
+    <p>
+        <b>CGPA:</b> 
+        <span class="cgpa-badge">{{ student.cgpa }}</span>
+    </p>
+</div>
+
+<!-- SEMESTER RESULTS -->
+<h4 class="mb-3">📊 Semester Results</h4>
+
+{% if marks %}
+    <div class="row">
+    {% for m in marks %}
+        <div class="col-md-6">
+            <div class="sem-card mb-3">
+                <h5>Semester {{ m.semester }}</h5>
+
+                <div class="subject-grid">
+                    <div>Sub1: {{ m.sub1 }}</div>
+                    <div>Sub2: {{ m.sub2 }}</div>
+                    <div>Sub3: {{ m.sub3 }}</div>
+                    <div>Sub4: {{ m.sub4 }}</div>
+                    <div>Sub5: {{ m.sub5 }}</div>
+                </div>
+
+                <b>SGPA: 
+                    <span class="sgpa-badge">{{ m.sgpa }}</span>
+                </b>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+
+{% else %}
+    <div class="alert alert-danger">
+        ❌ No marksheet data found
+    </div>
+{% endif %}
+<h3>🔔 Notifications</h3>
+
+{% if notifications and notifications|length > 0 %}
+    {% for n in notifications %}
+        <div style="background:#78c0b1; padding:10px; margin:5px; border-radius:8px;">
+            {{ n.message }}
+        </div>
+    {% endfor %}
+{% else %}
+    <p>No notifications</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+
+<h2 class="mb-4 text-center">🎓 Student Profile</h2>
+
+<!-- PROFILE CARD -->
+<div class="profile-card mb-4">
+
+    <div class="profile-avatar">👨‍🎓</div>
+
+    <h3 class="text-center mb-3">{{ student.name }}</h3>
+
+    <div class="info-block"><b>🆔 Roll No:</b> {{ student.roll_no }}</div>
+    <div class="info-block"><b>📘 Year:</b> {{ student.year }}</div>
+    <div class="info-block"><b>📧 Email:</b> {{ student.email }}</div>
+    <div class="info-block"><b>📱 Phone:</b> {{ student.phone }}</div>
+
+    <div class="info-block">
+        <b>📉 Backlogs:</b> 
+        {% if student.backlogs > 0 %}
+            <span class="backlog-badge">{{ student.backlogs }}</span>
+        {% else %}
+            <span class="cgpa-badge">0</span>
+        {% endif %}
+    </div>
+
+    <div class="info-block">
+        <b>🎯 CGPA:</b> 
+        <span class="cgpa-badge">{{ student.cgpa }}</span>
+    </div>
+
+</div>
+
+<!-- SEMESTER MARKS -->
+<h4 class="mb-3">📊 Semester Marks</h4>
+
+{% if marks %}
+<div class="row">
+{% for m in marks %}
+    <div class="col-md-6">
+        <div class="sem-card mb-3">
+            <h5>Semester {{ m.semester }}</h5>
+
+            <div class="subject-grid">
+                <div>Sub1: {{ m.sub1 }}</div>
+                <div>Sub2: {{ m.sub2 }}</div>
+                <div>Sub3: {{ m.sub3 }}</div>
+                <div>Sub4: {{ m.sub4 }}</div>
+                <div>Sub5: {{ m.sub5 }}</div>
+            </div>
+
+            <b>SGPA: 
+                <span class="sgpa-badge">{{ m.sgpa }}</span>
+            </b>
+        </div>
+    </div>
+{% endfor %}
+</div>
+
+{% else %}
+    <div class="alert alert-danger">
+        ❌ No marksheet data found
+    </div>
+{% endif %}
+
+{% endblock %}

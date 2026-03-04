@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2 class="mb-4">✏️ Edit Student</h2>
+
+<form method="POST" class="card p-4 shadow">
+
+    <label>Roll No</label>
+    <input type="text" value="{{ s.roll_no }}" class="form-control mb-2" readonly>
+
+    <label>Name</label>
+    <input type="text" name="name" value="{{ s.name }}" class="form-control mb-2" required>
+
+    <label>Year</label>
+    <input type="text" name="year" value="{{ s.year }}" class="form-control mb-2">
+
+    <label>Grade</label>
+    <input type="text" name="grade" value="{{ s.grade }}" class="form-control mb-2">
+
+    <label>Backlogs</label>
+    <input type="number" name="backlogs" value="{{ s.backlogs }}" class="form-control mb-2">
+
+    <label>Email</label>
+    <input type="email" name="email" value="{{ s.email }}" class="form-control mb-2">
+
+    <label>Phone</label>
+    <input type="text" name="phone" value="{{ s.phone }}" class="form-control mb-2">
+
+    <button class="btn btn-success mt-3">Update Student</button>
+
+    <a href="/admin" class="btn btn-secondary mt-3 ms-2">Cancel</a>
+
+</form>
+
+{% endblock %}

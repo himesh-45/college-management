@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+
+<!-- HEADER -->
+<div class="page-header">
+    <h2>✏️ Edit Faculty Details</h2>
+    <p class="text-muted">Update faculty information below</p>
+</div>
+
+<!-- FORM -->
+<form method="POST" class="edit-card">
+
+    <!-- Faculty ID (readonly) -->
+    <div class="input-group">
+        <input type="text" value="{{ f.faculty_id }}" readonly class="readonly-field">
+        <label>Faculty ID</label>
+    </div>
+
+    <!-- Name -->
+    <div class="input-group">
+        <input type="text" name="name" value="{{ f.name }}" required>
+        <label>Name</label>
+    </div>
+
+    <!-- Department -->
+    <div class="input-group">
+        <input type="text" name="branch" value="{{ f.branch }}">
+        <label>Department</label>
+    </div>
+
+    <!-- Salary -->
+    <div class="input-group">
+        <input type="number" name="salary" value="{{ f.salary }}">
+        <label>Salary</label>
+    </div>
+
+    <!-- Performance -->
+    <div class="input-group">
+        <input type="text" name="performance" value="{{ f.performance }}">
+        <label>Performance</label>
+    </div>
+
+    <!-- Specialization -->
+    <div class="input-group">
+        <input type="text" name="specialization" value="{{ f.specialization }}">
+        <label>Specialization</label>
+    </div>
+
+    <!-- Achievements -->
+    <div class="input-group">
+        <textarea name="achievements" rows="3">{{ f.achievements }}</textarea>
+        <label>Achievements</label>
+    </div>
+
+    <button class="update-btn mt-3">Update Faculty</button>
+
+</form>
+
+{% endblock %}

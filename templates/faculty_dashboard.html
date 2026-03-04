@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+
+<!-- ===== HEADER ===== -->
+<div class="dashboard-header">
+    <h2>👨‍🏫 Faculty Dashboard</h2>
+
+    <a href="/faculty_profile" class="btn btn-primary profile-btn">
+        👤 View My Profile
+    </a>
+</div>
+<h3>🔔 Notifications</h3>
+
+{% if notifications and notifications|length > 0 %}
+    {% for n in notifications %}
+        <div style="background:#74cac0; padding:10px; margin:5px; border-radius:8px;">
+            {{ n.message }}
+        </div>
+    {% endfor %}
+{% else %}
+    <p>No notifications</p>
+{% endif %}
+
+<!-- ===== STATS ===== -->
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="stat-card">
+            <h5>Total Students</h5>
+            <h3>{{ students|length }}</h3>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="stat-card">
+            <h5>Average CGPA</h5>
+            <h3>
+                {{ (students|map(attribute='cgpa')|sum / (students|length if students|length>0 else 1)) | round(2) }}
+            </h3>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="stat-card">
+            <h5>Students with Backlogs</h5>
+            <h3>
+                {{ students|selectattr('backlogs','gt',0)|list|length }}
+            </h3>
+        </div>
+    </div>
+</div>
+
+<!-- ===== SEARCH ===== -->
+<div class="d-flex justify-content-between mb-3">
+    <h4>📋 Student List</h4>
+
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Search student...">
+    </div>
+</div>
+
+<!-- ===== TABLE ===== -->
+<!-- ===== STUDENT TABLE ===== -->
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Roll No</th>
+            <th>Name</th>
+            <th>Year</th>
+            <th>CGPA</th>
+            <th>Backlogs</th>
+        </tr>
+    </thead>
+
+    <tbody id="studentTable">
+    {% for s in students %}
+    <tr>
+        <td>{{ s.roll_no }}</td>
+        <td>{{ s.name }}</td>
+        <td>{{ s.year }}</td>
+        <td>{{ s.cgpa }}</td>
+        <td>
+            {% if s.backlogs > 0 %}
+                <span class="text-danger fw-bold">{{ s.backlogs }}</span>
+            {% else %}
+                <span class="text-success">0</span>
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>  <!-- ✅ CLOSE FIRST TABLE -->
+
+
+<h4 class="mt-4">📘 My Subject Marks ({{ subject|upper }})</h4>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Roll No</th>
+            <th>Name</th>
+            <th>Semester</th>
+            <th>Marks ({{ subject|upper }})</th>
+            
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for m in student_marks %}
+        <tr>
+            <td>{{ m.roll_no }}</td>
+            <td>{{ m.name }}</td>
+            <td>{{ m.semester }}</td>
+            <td><b>{{ m.mark }}</b></td>
+
+        </tr>
+        {% endfor %}
+    
+    </tbody>
+</table>
+
+<!-- ===== SEARCH SCRIPT ===== -->
+<script>
+document.getElementById("searchInput").addEventListener("keyup", function() {
+    let value = this.value.toLowerCase();
+    let rows = document.querySelectorAll("#studentTable tr");
+
+    rows.forEach(row => {
+        let text = row.innerText.toLowerCase();
+        row.style.display = text.includes(value) ? "" : "none";
+    });
+});
+</script>
+
+{% endblock %}

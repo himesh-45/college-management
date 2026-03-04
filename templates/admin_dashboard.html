@@ -1,0 +1,239 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+/* ===== HEADINGS ===== */
+.section-title {
+    font-weight: 600;
+    margin-top: 20px;
+    margin-bottom: 15px;
+    color: #1e3a8a;
+    animation: fadeUp 0.6s ease;
+}
+
+/* ===== TOPPER CARDS ===== */
+.topper-card {
+    border-radius: 15px;
+    background: linear-gradient(to right, #2563eb, #38bdf8);
+    color: white;
+    transition: 0.3s;
+}
+
+.topper-card:hover {
+    transform: translateY(-5px) scale(1.03);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+/* ===== FORM CARDS ===== */
+.card {
+    border-radius: 15px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    animation: fadeUp 0.6s ease;
+}
+
+/* ===== BUTTONS ===== */
+.btn {
+    border-radius: 25px;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+}
+
+/* ===== TABLE STYLE ===== */
+table {
+    border-radius: 12px;
+    overflow: hidden;
+    animation: fadeUp 0.8s ease;
+}
+
+table thead {
+    background: #1e3a8a;
+    color: white;
+}
+
+table tbody tr:hover {
+    background: #e0f2fe;
+    transition: 0.2s;
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===== STATS BAR ===== */
+.stats-box {
+    background: linear-gradient(to right, #1e40af, #0ea5e9);
+    color: white;
+    padding: 15px;
+    border-radius: 15px;
+    text-align: center;
+    transition: 0.3s;
+}
+
+.stats-box:hover {
+    transform: scale(1.05);
+}
+</style>
+
+<h2 class="mb-4">🎛️ Admin Dashboard</h2>
+
+<!-- ===== STATS SUMMARY ===== -->
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="stats-box">
+            <h5>Total Students</h5>
+            <h3>{{ students|length }}</h3>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="stats-box">
+            <h5>Total Faculty</h5>
+            <h3>{{ faculty|length }}</h3>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="stats-box">
+            <h5>Top Performers</h5>
+            <h3>{{ toppers|length }}</h3>
+        </div>
+    </div>
+</div>
+
+<!-- 🏆 TOPPERS -->
+<h4 class="section-title">🏆 Top Performers</h4>
+<div class="row mb-4">
+{% for t in toppers %}
+<div class="col-md-3">
+    <div class="card p-3 text-center topper-card shadow">
+        <h5>{{ t.name }}</h5>
+        <p>Roll: {{ t.roll_no }}</p>
+        <h3>{{ t.cgpa }}</h3>
+    </div>
+</div>
+{% endfor %}
+</div>
+
+<!-- 📥 BULK STUDENT UPLOAD -->
+<h4 class="section-title">📥 Upload Students List</h4>
+<form action="/upload_students" method="POST" enctype="multipart/form-data" class="card p-3 mb-4">
+    <input type="file" name="file" accept=".xlsx" class="form-control mb-2" required>
+    <button class="btn btn-success">Upload Students</button>
+</form>
+
+<!-- 📊 UPLOAD SEMESTER MARKS -->
+<h4 class="section-title">📊 Upload Semester Marksheet</h4>
+<form action="/upload_marks" method="POST" enctype="multipart/form-data" class="card p-3 mb-4">
+    <input type="file" name="file" class="form-control mb-2" required>
+
+    <select name="semester" class="form-control mb-2" required>
+        <option value="">Select Semester</option>
+        <option value="1">Semester 1</option>
+        <option value="2">Semester 2</option>
+        <option value="3">Semester 3</option>
+        <option value="4">Semester 4</option>
+    </select>
+
+    <button class="btn btn-primary">Upload</button>
+</form>
+
+<!-- ➕ ADD STUDENT -->
+<h4 class="section-title">➕ Add Student</h4>
+<form action="/add_student" method="POST" class="card p-3 mb-4">
+    <input name="roll_no" placeholder="Roll No" class="form-control mb-2" required>
+    <input name="name" placeholder="Name" class="form-control mb-2" required>
+    <input name="year" placeholder="Year" class="form-control mb-2" required>
+    <input name="grade" placeholder="Grade" class="form-control mb-2">
+    <input name="backlogs" placeholder="Backlogs" type="number" class="form-control mb-2" value="0">
+    <input name="email" placeholder="Email" class="form-control mb-2">
+    <input name="phone" placeholder="Phone" class="form-control mb-2">
+
+    <button class="btn btn-success">Add Student</button>
+</form>
+
+<!-- ➕ ADD FACULTY -->
+<h4 class="section-title">👨‍🏫 Add Faculty</h4>
+<form action="/add_faculty" method="POST" class="card p-3 mb-4">
+    <input name="faculty_id" placeholder="Faculty ID" class="form-control mb-2" required>
+    <input name="name" placeholder="Name" class="form-control mb-2" required>
+    <input name="branch" placeholder="Department" class="form-control mb-2">
+    <input name="salary" placeholder="Salary" type="number" class="form-control mb-2">
+    <input name="performance" placeholder="Performance" class="form-control mb-2">
+    <input name="specialization" placeholder="Specialization" class="form-control mb-2">
+    <textarea name="achievements" placeholder="Achievements" class="form-control mb-2"></textarea>
+
+    <button class="btn btn-warning">Add Faculty</button>
+</form>
+
+<!-- 🎓 STUDENT TABLE -->
+<h4 class="section-title">🎓 Students</h4>
+<table class="table table-bordered table-hover">
+<thead>
+<tr>
+    <th>Roll</th>
+    <th>Name</th>
+    <th>Year</th>
+    <th>Grade</th>
+    <th>Backlogs</th>
+    <th>CGPA</th>
+    <th>Action</th>
+</tr>
+</thead>
+<tbody>
+{% for s in students %}
+<tr>
+    <td>{{ s.roll_no }}</td>
+    <td>{{ s.name }}</td>
+    <td>{{ s.year }}</td>
+    <td>{{ s.grade }}</td>
+    <td>{{ s.backlogs }}</td>
+    <td>{{ s.cgpa }}</td>
+    <td>
+        <a href="/update_student/{{ s.roll_no }}" class="btn btn-info btn-sm">Edit</a>
+        <a href="/delete_student/{{ s.roll_no }}" class="btn btn-danger btn-sm">Delete</a>
+    </td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+
+<!-- 👨‍🏫 FACULTY TABLE -->
+<h4 class="section-title">👨‍🏫 Faculty</h4>
+<table class="table table-bordered table-hover">
+<thead>
+<tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Department</th>
+    <th>Salary</th>
+    <th>Performance</th>
+    <th>Action</th>
+</tr>
+</thead>
+<tbody>
+{% for f in faculty %}
+<tr>
+    <td>{{ f.faculty_id }}</td>
+    <td>{{ f.name }}</td>
+    <td>{{ f.branch }}</td>
+    <td>{{ f.salary }}</td>
+    <td>{{ f.performance }}</td>
+    <td>
+        <a href="/update_faculty/{{ f.faculty_id }}" class="btn btn-info btn-sm">Edit</a>
+        <a href="/delete_faculty/{{ f.faculty_id }}" class="btn btn-danger btn-sm">Delete</a>
+    </td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+
+{% endblock %}

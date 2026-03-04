@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+
+/* ===== PAGE TITLE ===== */
+.page-title {
+    font-weight: 600;
+    color: #1e3a8a;
+    margin-bottom: 20px;
+}
+
+/* ===== TOP 3 CARDS ===== */
+.top-card {
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    color: white;
+    animation: fadeUp 0.6s ease;
+}
+
+.gold { background: linear-gradient(to right, #f59e0b, #facc15); }
+.silver { background: linear-gradient(to right, #9ca3af, #e5e7eb); color: black; }
+.bronze { background: linear-gradient(to right, #b45309, #f59e0b); }
+
+/* ===== TABLE ===== */
+.ranking-table {
+    border-radius: 12px;
+    overflow: hidden;
+    animation: fadeUp 0.8s ease;
+}
+
+.ranking-table thead {
+    background: #1e3a8a;
+    color: white;
+}
+
+.ranking-table tbody tr:hover {
+    background: #e0f2fe;
+}
+
+/* CGPA badge */
+.cgpa-badge {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+.cg-high { background: #22c55e; color: white; }
+.cg-mid { background: #eab308; color: black; }
+.cg-low { background: #ef4444; color: white; }
+
+/* animation */
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(25px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+</style>
+
+<h2 class="page-title">🏆 Student Ranking Leaderboard</h2>
+
+<!-- ===== TOP 3 STUDENTS ===== -->
+<div class="row mb-4 text-center">
+
+    {% if students|length > 0 %}
+    <div class="col-md-4">
+        <div class="top-card gold">
+            🥇 <h4>{{ students[0].name }}</h4>
+            <p>CGPA: {{ students[0].cgpa }}</p>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if students|length > 1 %}
+    <div class="col-md-4">
+        <div class="top-card silver">
+            🥈 <h4>{{ students[1].name }}</h4>
+            <p>CGPA: {{ students[1].cgpa }}</p>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if students|length > 2 %}
+    <div class="col-md-4">
+        <div class="top-card bronze">
+            🥉 <h4>{{ students[2].name }}</h4>
+            <p>CGPA: {{ students[2].cgpa }}</p>
+        </div>
+    </div>
+    {% endif %}
+
+</div>
+
+<!-- ===== FULL RANKING TABLE ===== -->
+<table class="table table-bordered table-hover ranking-table">
+
+<thead>
+<tr>
+    <th>Rank</th>
+    <th>Name</th>
+    <th>CGPA</th>
+</tr>
+</thead>
+
+<tbody>
+{% for s in students %}
+<tr>
+    <td>
+        {% if loop.index == 1 %} 🥇
+        {% elif loop.index == 2 %} 🥈
+        {% elif loop.index == 3 %} 🥉
+        {% else %} {{ loop.index }}
+        {% endif %}
+    </td>
+
+    <td>{{ s.name }}</td>
+
+    <td>
+        <span class="cgpa-badge
+            {% if s.cgpa >= 8 %} cg-high
+            {% elif s.cgpa >= 6 %} cg-mid
+            {% else %} cg-low
+            {% endif %}
+        ">
+            {{ s.cgpa }}
+        </span>
+    </td>
+</tr>
+{% endfor %}
+</tbody>
+
+</table>
+
+{% endblock %}
